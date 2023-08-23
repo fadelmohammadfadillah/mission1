@@ -1,0 +1,90 @@
+.table {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    border: 1px solid;
+    background-color: white;
+    height: 100vh;
+    width: 100%;
+}
+
+.cell {
+    display: flex;
+    border: 1px solid;
+    font-size: x-large;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-red {
+    background-color: red;
+}
+
+.bg-yellow {
+    background-color: yellow;
+}
+
+.bg-green {
+    background-color: green;
+}
+
+.bg-black {
+    background-color: black;
+}
+
+.bg-blue {
+    background-color: blue;
+}
+
+.bg-lightblue {
+    background-color: lightblue;
+}
+
+.bg-pink {
+    background-color: pink;
+}
+
+.bg-orange {
+    background-color: orange;
+}
+
+.bg-purple {
+    background-color: purple;
+}
+
+.bg-grey {
+    background-color: grey;
+}
+
+.bg-chocolate {
+    background-color: chocolate;
+}
+
+
+.text-white {
+    color: white;
+}
+
+.item-hitam {
+    grid-area: 1 / 2 / 2 / 5;
+}
+
+.item-abu {
+    grid-area: 4 / 2 / 6 / 4;
+}
+
+.item-pink {
+    grid-area: 2 / 3 / 4 / 4;
+}
+
+.item-ungu {
+    grid-area: 3 / 4 / 7 / 5;
+}
+
+.item-biru-tua {
+    grid-area: 4 / 1 / 7 / 2;
+}
+
+.item-orange {
+    grid-area: 6 / 2 / 7 / 4;
+}
+
