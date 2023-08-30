@@ -3,27 +3,29 @@ let barang = [
         "id": "1",
         "nama_produk": "Baso",
         "harga": "30000",
-        "src": "img/img-error.png"
+        "src": "img/bakso.jpg"
     },
     {
         "id": "2",
         "nama_produk": "Siomay",
         "harga": "15000",
-        "src": "img/img-error.png"
+        "src": "img/siomay.jpg"
     },
     {
         "id": "3",
         "nama_produk": "Tahu",
         "harga": "20000",
-        "src": "img/img-error.png"
+        "src": "img/tahu.jpg"
     },
     {
         "id": "4",
-        "nama_produk": "Baso Ikan",
+        "nama_produk": "Seblak",
         "harga": "40000",
-        "src": "img/img-error.png"
+        "src": "img/seblak.jpg"
     }
 ]
+
+data_terbeli = [];
 
 function LoadContent(srcImg, namaBarang, hargaBarang, idBarang){
     let contentBarang = document.getElementById("content-barang");
@@ -64,7 +66,7 @@ function LoadContent(srcImg, namaBarang, hargaBarang, idBarang){
     buttonMinus.classList.add('btn', 'btn-primary');
     buttonMinus.id = 'kurangi-qty';
     buttonMinus.textContent = '-';
-    buttonCard.setAttribute('onclick', `kurangiBarang(${idBarang})`);
+    buttonMinus.setAttribute('onclick', `kurangiBarang(${idBarang})`);
     buttonCard.appendChild(buttonMinus);
 
     //kolom qty
@@ -82,7 +84,7 @@ function LoadContent(srcImg, namaBarang, hargaBarang, idBarang){
     buttonPlus.classList.add('btn', 'btn-primary');
     buttonPlus.id = 'tambah-qty';
     buttonPlus.textContent = '+';
-    buttonPlus.setAttribute('onclick', `tambahBarang(${idBarang})`)
+    buttonPlus.setAttribute('onclick', `tambahBarang(${idBarang})`);
     buttonCard.appendChild(buttonPlus);
 
     //break rules
@@ -94,20 +96,17 @@ function LoadContent(srcImg, namaBarang, hargaBarang, idBarang){
     buttonTambahBarang.classList.add('btn', 'btn-success');
     buttonTambahBarang.setAttribute('style', 'margin-top: 1rem;');
     buttonTambahBarang.textContent = 'Tambah Barang';
-    buttonTambahBarang.setAttribute('onclick', `totalBiaya(namaBarang, hargaBarang, idBarang, ${qtyColumn.value}`);
+    buttonTambahBarang.setAttribute('onclick', `Cart('${namaBarang}', ${hargaBarang}, ${idBarang})`);
     buttonCard.appendChild(buttonTambahBarang);
 
     cardBarang.appendChild(buttonCard);
     contentBarang.appendChild(cardBarang);
 }
 
-function Cart(namaItem, hargaItem, idItem, qtyItem){
+function Cart(namaItem, hargaItem, idItem){
+    let qtyItem = document.getElementById('qty-' + idItem).value;
     // Membuat container untuk cart
-    let cartContainer = document.getElementById('content-keranjang');
-    // Membuat judul "My Cart"
-    var cartTitle = document.createElement("h3");
-    cartTitle.textContent = "My Cart";
-    cartContainer.appendChild(cartTitle);
+    let cartContainer = document.getElementById('list-barang');
 
     // Loop untuk membuat elemen-elemen row
     var row = document.createElement("div");
@@ -148,91 +147,32 @@ function Cart(namaItem, hargaItem, idItem, qtyItem){
     var hr = document.createElement("hr");
     cartContainer.appendChild(hr);
 
-    
-    return hargaItem*qtyItem;
+    let total = parseInt(hargaItem) * parseInt(qtyItem);
+    data_terbeli.push(total)
+    totalBiaya();
 }
 
-function totalBiaya(namaItem, hargaItem, idItem, qtyItem){
-    let hargaBarang = Cart(namaItem, hargaItem, idItem, qtyItem);
+function totalBiaya(){
     let hargaTotal = 0
-    hargaTotal += hargaBarang;
-    let pajak = 11/100;
-    let cartContainer = document.getElementById('harga-total');
-    // Total Pembelian
-    var totalPembelianRow = document.createElement("div");
-    totalPembelianRow.classList.add("row");
-    var colTotalPembelian = document.createElement("div");
-    colTotalPembelian.classList.add("col-7");
-    var totalPembelianLabel = document.createElement("h5");
-    totalPembelianLabel.classList.add("fs-6");
-    totalPembelianLabel.textContent = "Total Pembelian";
-    colTotalPembelian.appendChild(totalPembelianLabel);
-    totalPembelianRow.appendChild(colTotalPembelian);
-
-    var colTotalPembelianAmount = document.createElement("div");
-    colTotalPembelianAmount.classList.add("col-5", "text-end");
-    var totalPembelianAmount = document.createElement("h5");
-    totalPembelianAmount.classList.add("fs-6");
-    totalPembelianAmount.textContent = `Rp. ${hargaTotal}`;
-    colTotalPembelianAmount.appendChild(totalPembelianAmount);
-    totalPembelianRow.appendChild(colTotalPembelianAmount);
-
-    cartContainer.appendChild(totalPembelianRow);
-
-    // Pajak
-    var pajakRow = document.createElement("div");
-    pajakRow.classList.add("row");
-    var colPajak = document.createElement("div");
-    colPajak.classList.add("col-7");
-    var pajakLabel = document.createElement("h5");
-    pajakLabel.classList.add("fs-6");
-    pajakLabel.textContent = "Pajak";
-    colPajak.appendChild(pajakLabel);
-    pajakRow.appendChild(colPajak);
-
-    var colPajakAmount = document.createElement("div");
-    colPajakAmount.classList.add("col-5", "text-end");
-    var pajakAmount = document.createElement("h5");
-    pajakAmount.classList.add("fs-6");
-    pajakAmount.textContent = "11%";
-    colPajakAmount.appendChild(pajakAmount);
-    pajakRow.appendChild(colPajakAmount);
-
-    cartContainer.appendChild(pajakRow);
-
-    // Total Bayar
-    var totalBayarRow = document.createElement("div");
-    totalBayarRow.classList.add("row");
-    var colTotalBayar = document.createElement("div");
-    colTotalBayar.classList.add("col-7");
-    var totalBayarLabel = document.createElement("h5");
-    totalBayarLabel.classList.add("fs-6");
-    totalBayarLabel.textContent = "Total Bayar";
-    colTotalBayar.appendChild(totalBayarLabel);
-    totalBayarRow.appendChild(colTotalBayar);
-
-    var colTotalBayarAmount = document.createElement("div");
-    colTotalBayarAmount.classList.add("col-5", "text-end");
-    var totalBayarAmount = document.createElement("h5");
-    totalBayarAmount.classList.add("fs-6");
-    totalBayarAmount.textContent = `Rp. ${hargaTotal + hargaTotal * pajak}`;
-    colTotalBayarAmount.appendChild(totalBayarAmount);
-    totalBayarRow.appendChild(colTotalBayarAmount);
-
-    cartContainer.appendChild(totalBayarRow);
+    for (i=0; i<data_terbeli.length;i++){
+        hargaTotal += data_terbeli[i];
+    }
+    let hargaFinal = hargaTotal + hargaTotal * 11/100;
+    document.getElementById('total-pembelian').textContent = hargaTotal;
+    document.getElementById('total-bayar').textContent = hargaFinal;
 }
 function kurangiBarang(idBarang){
     let jumlah = document.getElementById('qty-' + idBarang);
-    jumlahBarang = jumlah.value;
-    jumlah.value = jumlahBarang- 1;
+    console.log(parseInt(jumlah.value));
+    let jumlahBarang = parseInt(jumlah.value);
+    jumlah.value = jumlahBarang - 1;
 }
 function tambahBarang(idBarang){
     let jumlah = document.getElementById('qty-' + idBarang);
-    jumlahBarang = jumlah.value;
+    console.log(parseInt(jumlah.value))
+    let jumlahBarang = parseInt(jumlah.value);
     jumlah.value = jumlahBarang+ 1; 
 }
-
-totalBiaya("Baso", 30000, "1", "2");
 barang.forEach(element => {
     LoadContent(element.src, element.nama_produk, element.harga, element.id);
 });
